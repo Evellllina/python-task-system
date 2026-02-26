@@ -1,20 +1,14 @@
-from src.power import power_function
-from src.constants import SAMPLE_CONSTANT
+from lab1.sources import GeneratorSource, ApiSource, FileSource
+from lab1.collector import TaskCollector
 
+collector = TaskCollector()
 
-def main() -> None:
-    """
-    Обязательнная составляющая программ, которые сдаются. Является точкой входа в приложение
-    :return: Данная функция ничего не возвращает
-    """
+collector.add_source(GeneratorSource(count=3))
+collector.add_source(ApiSource())
+collector.add_source(FileSource("tasks.json"))
 
-    target, degree = map(int, input("Введите два числа разделенные пробелом: ").split(" "))
+tasks = collector.collect_all()
 
-    result = power_function(target=target, power=degree)
-
-    print(result)
-
-    print(SAMPLE_CONSTANT)
-
-if __name__ == "__main__":
-    main()
+print(f"\nВсего задач: {len(tasks)}")
+for task in tasks:
+    print(f"{task}")
